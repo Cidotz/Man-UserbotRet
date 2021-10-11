@@ -475,7 +475,7 @@ with bot:
                     title="Repository",
                     description="Repository Man - Userbot",
                     url="https://t.me/SharingUserbot",
-                    text=f"**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **UserMode: :** [{user.first_name}](tg://user?id={user.id})\n✣ **Grup Support :** @SharingUserbot\n✣ **Repository :** [Man-Userbot](https://github.com/mrismanaziz/Man-Userbot)\n➖➖➖➖➖➖➖➖➖➖",
+                    text="**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **UserMode: :** **Owner Repo :** [Risman](https://t.me/mrismanaziz)\n✣ **Grup Support :** @SharingUserbot\n✣ **Repository :** [Man-Userbot](https://github.com/mrismanaziz/Man-Userbot)\n➖➖➖➖➖➖➖➖➖➖",
                     buttons=[
                         [
                             custom.Button.url(
@@ -493,7 +493,7 @@ with bot:
                     title="✗ Man-Userbot ✗",
                     description="Man - UserBot | Telethon",
                     url="https://t.me/SharingUserbot",
-                    text="**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **Owner Repo :** [Risman](https://t.me/mrismanaziz)\n✣ **Grup Support :** @SharingUserbot\n✣ **Repository :** [Man-Userbot](https://github.com/mrismanaziz/Man-Userbot)\n➖➖➖➖➖➖➖➖➖➖",
+                    text=f"**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **UserMode:** [{user.first_name}](tg://user?id={user.id})\n✣ **Assistant:** {BOT_USERNAME}\n➖➖➖➖➖➖➖➖➖\n**Support : @Lunatic0de**\n➖➖➖➖➖➖➖➖➖➖",
                     buttons=[
                         [
                             custom.Button.url(
