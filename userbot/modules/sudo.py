@@ -1,10 +1,10 @@
-import os
 import heroku3
 from telethon.tl.functions.users import GetFullUserRequest
 
 from userbot import HEROKU_API_KEY, HEROKU_APP_NAME, SUDO_USERS, bot
 from userbot.events import man_cmd
-from userbot.utils import edit_delete as eod , edit_or_reply as eor
+from userbot.utils import edit_delete as eod
+from userbot.utils import edit_or_reply as eor
 
 Heroku = heroku3.from_key(HEROKU_API_KEY)
 heroku_api = "https://api.heroku.com"
@@ -28,7 +28,10 @@ async def add(event):
     if HEROKU_APP_NAME is not None:
         app = Heroku.app(HEROKU_APP_NAME)
     else:
-        await eod(ok, "**Silahkan Set-Up**  `HEROKU_APP_NAME` **untuk menambahkan pengguna sudo!!**")
+        await eod(
+            ok,
+            "**Silahkan Set-Up**  `HEROKU_APP_NAME` **untuk menambahkan pengguna sudo!!**",
+        )
         return
     heroku_Config = app.config()
     if event is None:
@@ -41,7 +44,9 @@ async def add(event):
         newsudo = f"{sudousers} {target}"
     else:
         newsudo = f"{target}"
-    await ok.edit(f"**Added**  `{target}`  **in Sudo User.**\n\n __Restarting Heroku to Apply Changes. Wait for a minute.__")
+    await ok.edit(
+        f"**Added**  `{target}`  **in Sudo User.**\n\n __Restarting Heroku to Apply Changes. Wait for a minute.__"
+    )
     heroku_Config[bot] = newsudo
 
 
@@ -64,10 +69,13 @@ async def _(event):
         await eod(ok, f"Reply to a user to remove them from sudo.")
     if gett in sudousers:
         newsudo = sudousers.replace(gett, "")
-        await ok.edit(f"**Removed**  `{target}`  from Sudo User.\n\n Restarting Heroku to Apply Changes. Wait for a minute.")
+        await ok.edit(
+            f"**Removed**  `{target}`  from Sudo User.\n\n Restarting Heroku to Apply Changes. Wait for a minute."
+        )
         heroku_Config[bot] = newsudo
     else:
         await ok.edit("**Pengguna ini tidak ada dalam Daftar Pengguna Sudo Anda.**")
+
 
 async def get_user(event):
     if event.reply_to_msg_id:
