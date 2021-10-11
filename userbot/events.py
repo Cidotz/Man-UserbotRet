@@ -47,8 +47,14 @@ def man_cmd(pattern=None, command=None, **args):
                 cmd = reg + command
             else:
                 cmd = (
-                    (reg + pattern).replace("$", "").replace("\\", "").replace("^", "")
-                )
+                    (reg +
+                     pattern).replace(
+                        "$",
+                        "").replace(
+                        "\\",
+                        "").replace(
+                        "^",
+                        ""))
             try:
                 CMD_HELP[file_test].append(cmd)
             except BaseException:
@@ -100,8 +106,14 @@ def sudo_cmd(pattern=None, command=None, **args):
                 cmd = reg + command
             else:
                 cmd = (
-                    (reg + pattern).replace("$", "").replace("\\", "").replace("^", "")
-                )
+                    (reg +
+                     pattern).replace(
+                        "$",
+                        "").replace(
+                        "\\",
+                        "").replace(
+                        "^",
+                        ""))
             try:
                 SUDO_LIST[file_test].append(cmd)
             except BaseException:
@@ -111,7 +123,7 @@ def sudo_cmd(pattern=None, command=None, **args):
         args["from_users"] = list(SUDO_USERS)
         args["incoming"] = True
         del args["allow_sudo"]
-        
+
     elif "incoming" in args and not args["incoming"]:
         args["outgoing"] = True
 
@@ -148,7 +160,13 @@ def command(**args):
         try:
             cmd = re.search(reg, pattern)
             try:
-                cmd = cmd.group(1).replace("$", "").replace("\\", "").replace("^", "")
+                cmd = cmd.group(1).replace(
+                    "$",
+                    "").replace(
+                    "\\",
+                    "").replace(
+                    "^",
+                    "")
             except BaseException:
                 pass
             try:
