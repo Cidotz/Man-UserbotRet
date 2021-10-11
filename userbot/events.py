@@ -100,7 +100,7 @@ def sudo_cmd(pattern=None, command=None, **args):
                 reg = SUDO_HANDLER[1]
             elif len(SUDO_HANDLER) == 1:
                 manreg = "^\\" + SUDO_HANDLER
-                reg = HANDLER
+                reg = CMD_HANDLER
             args["pattern"] = re.compile(manreg + pattern)
             if command is not None:
                 cmd = reg + command
