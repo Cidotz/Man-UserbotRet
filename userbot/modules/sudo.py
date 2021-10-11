@@ -1,8 +1,8 @@
 import heroku3
 from telethon.tl.functions.users import GetFullUserRequest
 
-from userbot import CMD_HELP, HEROKU_API_KEY, HEROKU_APP_NAME, SUDO_USERS, bot
 from userbot import CMD_HANDLER as cmd
+from userbot import CMD_HELP, HEROKU_API_KEY, HEROKU_APP_NAME, SUDO_USERS, bot
 from userbot.events import man_cmd
 from userbot.utils import edit_delete, edit_or_reply
 
@@ -41,7 +41,9 @@ async def add(event):
     try:
         target = await get_user(event)
     except Exception:
-        await edit_delete(ok, f"**Balas ke Pesan pengguna untuk menambahkannya di sudo.**")
+        await edit_delete(
+            ok, f"**Balas ke Pesan pengguna untuk menambahkannya di sudo.**"
+        )
     if sudousers:
         newsudo = f"{sudousers} {target}"
     else:
@@ -60,7 +62,8 @@ async def _(event):
         app = Heroku.app(HEROKU_APP_NAME)
     else:
         await edit_delete(
-            ok, "**Silahkan Tambahkan** `HEROKU_APP_NAME` **untuk menghapus pengguna sudo!!**"
+            ok,
+            "**Silahkan Tambahkan** `HEROKU_APP_NAME` **untuk menghapus pengguna sudo!!**",
         )
         return
     heroku_Config = app.config()
