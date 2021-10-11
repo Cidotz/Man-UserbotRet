@@ -17,12 +17,9 @@
 # Thanks @Spechide.
 
 import logging
-import asyncio
-import requests
 
-from telethon import functions
-from telethon.errors import ChatSendInlineForbiddenError as noin
-from telethon.errors.rpcerrorlist import BotMethodInvalidError as dedbot, BotInlineDisabledError as noinline, YouBlockedUserError
+from telethon.errors.rpcerrorlist import BotInlineDisabledError as noinline
+from telethon.errors.rpcerrorlist import YouBlockedUserError
 
 from userbot import BOT_USERNAME
 from userbot import CMD_HANDLER as cmd
