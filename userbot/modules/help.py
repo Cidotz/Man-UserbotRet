@@ -24,7 +24,7 @@ async def help(event):
         if args in CMD_HELP:
             await edit_or_reply(event, str(CMD_HELP[args]))
         else:
-            await await edit_delete(event, f"`{args}` **Bukan Nama Modul yang Valid.**", 15)
+            await edit_delete(event, f"`{args}` **Bukan Nama Modul yang Valid.**", 15)
     else:
         string = ""
         for i in CMD_HELP:
