@@ -31,12 +31,12 @@ async def help(event):
         string = ""
         for i in CMD_HELP:
             string += "`" + str(i)
-            string += f"`\t\t{ICON_HELP}\t\t"
+            string += f"`\t\t\t{ICON_HELP}\t\t\t"
         await event.edit(
             f"**✦ Daftar Perintah Untuk Man-Userbot:**\n"
             f"**✦ Jumlah** `{len(modules)}` **Modules**\n"
             f"**✦ Owner:** [{user.first_name}](tg://user?id={user.id})\n\n"
-            f"{ICON_HELP}   {string}"
+            f"{ICON_HELP}  {string}"
             f"\n\nSupport @{CHANNEL}",
         )
         await event.reply(
