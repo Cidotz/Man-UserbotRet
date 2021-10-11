@@ -538,7 +538,7 @@ with bot:
         async def on_plug_in_callback_query_handler(event):
             if event.query.user_id == bot.uid or event.query.user_id in SUDO_USERS:
                 databack = custom.Button.inline(
-                    f"• Re-Open Menu •", data="helpme_prev")
+                    f"• Re-Open Menu •", data="prefix_prev")
                 await event.edit(f"**⚜️ Help Mode Button Ditutup! ⚜️**", buttons=databack, link_preview=False)
             else:
                 reply_pop_up_alert = (
