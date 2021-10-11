@@ -6,8 +6,9 @@
 """ Userbot help command """
 
 
+from userbot import CHANNEL
 from userbot import CMD_HANDLER as cmd
-from userbot import CMD_HELP, CHANNEL, ICON_HELP, bot
+from userbot import CMD_HELP, ICON_HELP, bot
 from userbot.events import man_cmd, sudo_cmd
 from userbot.utils import edit_delete, edit_or_reply
 
