@@ -15,7 +15,7 @@ from telethon import events
 from time import gmtime, strftime
 from traceback import format_exc
 
-from userbot import CMD_HELP, CMD_HANDLER, LOGSPAMMER, bot
+from userbot import CMD_HELP, CMD_HANDLER, LOGSPAMMER, SUDO_HANDLER, SUDO_USERS, bot
 
 
 def man_cmd(pattern=None, command=None, **args):
@@ -24,7 +24,7 @@ def man_cmd(pattern=None, command=None, **args):
     previous_stack_frame = stack[1]
     file_test = Path(previous_stack_frame.filename)
     file_test = file_test.stem.replace(".py", "")
-    args.get("allow_sudo", False)
+    allow_sudo = args.get("allow_sudo", False)
     if pattern is not None:
         if pattern.startswith(r"\#"):
             args["pattern"] = re.compile(pattern)
@@ -47,18 +47,73 @@ def man_cmd(pattern=None, command=None, **args):
                 cmd = reg + command
             else:
                 cmd = (
-                    (reg +
-                     pattern).replace(
-                        "$",
-                        "").replace(
-                        "\\",
-                        "").replace(
-                        "^",
-                        ""))
+                    (reg + pattern).replace("$", "").replace("\\", "").replace("^", "")
+                )
             try:
                 CMD_HELP[file_test].append(cmd)
             except BaseException:
                 CMD_HELP.update({file_test: [cmd]})
+
+    args["outgoing"] = True
+    # decides that other users can use it or not
+    if allow_sudo:
+        args["from_users"] = list(SUDO_USERS)
+        args["incoming"] = True
+        del args["allow_sudo"]
+
+    # error handling condition check
+    elif "incoming" in args and not args["incoming"]:
+        args["outgoing"] = True
+
+    if "allow_edited_updates" in args and args["allow_edited_updates"]:
+        del args["allow_edited_updates"]
+
+    return events.NewMessage(**args)
+
+
+def sudo_cmd(pattern=None, command=None, **args):
+    args["func"] = lambda e: e.via_bot_id is None
+    stack = inspect.stack()
+    previous_stack_frame = stack[1]
+    file_test = Path(previous_stack_frame.filename)
+    file_test = file_test.stem.replace(".py", "")
+    allow_sudo = args.get("allow_sudo", False)
+    if pattern is not None:
+        if pattern.startswith(r"\#"):
+            args["pattern"] = re.compile(pattern)
+        elif pattern.startswith(r"^"):
+            args["pattern"] = re.compile(pattern)
+            cmd = pattern.replace("$", "").replace("^", "").replace("\\", "")
+            try:
+                SUDO_LIST[file_test].append(cmd)
+            except BaseException:
+                SUDO_LIST.update({file_test: [cmd]})
+        else:
+            if len(SUDO_HANDLER) == 2:
+                manreg = "^" + SUDO_HANDLER
+                reg = SUDO_HANDLER[1]
+            elif len(SUDO_HANDLER) == 1:
+                manreg = "^\\" + SUDO_HANDLER
+                reg = HANDLER
+            args["pattern"] = re.compile(manreg + pattern)
+            if command is not None:
+                cmd = reg + command
+            else:
+                cmd = (
+                    (reg + pattern).replace("$", "").replace("\\", "").replace("^", "")
+                )
+            try:
+                SUDO_LIST[file_test].append(cmd)
+            except BaseException:
+                SUDO_LIST.update({file_test: [cmd]})
+    args["outgoing"] = True
+    if allow_sudo:
+        args["from_users"] = list(SUDO_USERS)
+        args["incoming"] = True
+        del args["allow_sudo"]
+        
+    elif "incoming" in args and not args["incoming"]:
+        args["outgoing"] = True
 
     if "allow_edited_updates" in args and args["allow_edited_updates"]:
         del args["allow_edited_updates"]
@@ -75,6 +130,7 @@ def command(**args):
     file_test = file_test.stem.replace(".py", "")
 
     pattern = args.get("pattern", None)
+    allow_sudo = args.get("allow_sudo", None)
     allow_edited_updates = args.get("allow_edited_updates", False)
     args["incoming"] = args.get("incoming", False)
     args["outgoing"] = True
@@ -92,13 +148,7 @@ def command(**args):
         try:
             cmd = re.search(reg, pattern)
             try:
-                cmd = cmd.group(1).replace(
-                    "$",
-                    "").replace(
-                    "\\",
-                    "").replace(
-                    "^",
-                    "")
+                cmd = cmd.group(1).replace("$", "").replace("\\", "").replace("^", "")
             except BaseException:
                 pass
             try:
@@ -107,6 +157,17 @@ def command(**args):
                 CMD_HELP.update({file_test: [cmd]})
         except BaseException:
             pass
+    if allow_sudo:
+        args["from_users"] = list(SUDO_USERS)
+        args["incoming"] = True
+    del allow_sudo
+    try:
+        del args["allow_sudo"]
+    except BaseException:
+        pass
+
+    if "allow_edited_updates" in args:
+        del args["allow_edited_updates"]
 
     def decorator(func):
         if allow_edited_updates:
