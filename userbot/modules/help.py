@@ -5,18 +5,18 @@
 #
 """ Userbot help command """
 
-import asyncio
 
+from userbot import ALIVE_NAME, CHANNEL
 from userbot import CMD_HANDLER as cmd
-from userbot import ALIVE_NAME, CMD_HELP, ICON_HELP, CHANNEL, bot
+from userbot import CMD_HELP, ICON_HELP, bot
 from userbot.events import man_cmd, sudo_cmd
 from userbot.utils import edit_delete, edit_or_reply
 
 modules = CMD_HELP
 
 
-@bot.on(man_cmd(pattern="help(?:\s|$)(.*)"))
-@bot.on(sudo_cmd(pattern="help(?:\s|$)(.*)", allow_sudo=True))
+@bot.on(man_cmd(pattern="help(?:\\s|$)(.*)"))
+@bot.on(sudo_cmd(pattern="help(?:\\s|$)(.*)", allow_sudo=True))
 async def help(event):
     """For help command"""
     args = event.pattern_match.group(1).lower()
@@ -30,13 +30,15 @@ async def help(event):
         for i in CMD_HELP:
             string += "`" + str(i)
             string += f"`\t\t{ICON_HELP}\t\t"
-        await edit_or_reply(event, 
+        await edit_or_reply(
+            event,
             f"**✦ Daftar Perintah Untuk Man-Userbot:**\n"
             f"**✦ Jumlah** `{len(modules)}` **Modules**\n"
             f"**✦ Owner:** `{ALIVE_NAME}`\n\n"
             f"{ICON_HELP}  {string}"
-            f"\n\nSupport {CHANNEL}"
+            f"\n\nSupport {CHANNEL}",
         )
-        await edit_or_reply(event, 
-            f"\n**Contoh Ketik** `{cmd}help afk` **Untuk Melihat Informasi Module**"
+        await edit_or_reply(
+            event,
+            f"\n**Contoh Ketik** `{cmd}help afk` **Untuk Melihat Informasi Module**",
         )
