@@ -6,8 +6,10 @@
 """ Userbot help command """
 
 import asyncio
+
+from userbot import CHANNEL
 from userbot import CMD_HANDLER as cmd
-from userbot import ALIVE_NAME, CMD_HELP, CHANNEL, ICON_HELP, bot
+from userbot import CMD_HELP, ICON_HELP, bot
 from userbot.events import man_cmd
 
 modules = CMD_HELP
