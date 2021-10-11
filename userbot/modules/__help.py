@@ -18,8 +18,9 @@
 
 import logging
 
-from userbot import BOT_USERNAME, bot
+from userbot import BOT_USERNAME
 from userbot import CMD_HANDLER as cmd
+from userbot import bot
 from userbot.events import man_cmd
 
 logging.basicConfig(
@@ -41,7 +42,9 @@ async def _(event):
             )
             await event.delete()
         except noinline:
-            xx = await event.edit("**Inline Mode Tidak aktif.**\n__Sedang Menyalakannya, Harap Tunggu Sebentar...__")
+            xx = await event.edit(
+                "**Inline Mode Tidak aktif.**\n__Sedang Menyalakannya, Harap Tunggu Sebentar...__"
+            )
             async with bot.conversation(chat) as conv:
                 try:
                     first = await conv.send_message("/setinline")
@@ -53,9 +56,14 @@ async def _(event):
                     await bot.send_read_acknowledge(conv.chat_id)
                 except YouBlockedUserError:
                     return await xx.edit("Unblock @Botfather first.")
-                await xx.edit(f"**Berhasil Menyalakan Mode Inline**\n\n**Ketik** `{cmd}helpme` **lagi untuk membuka menu bantuan.**")
+                await xx.edit(
+                    f"**Berhasil Menyalakan Mode Inline**\n\n**Ketik** `{cmd}helpme` **lagi untuk membuka menu bantuan.**"
+                )
             await bot.delete_messages(
-                conv.chat_id, [first.id, second.id, third.id, fourth.id, fifth.id, sixth.id]
+                conv.chat_id,
+                [first.id, second.id, third.id, fourth.id, fifth.id, sixth.id],
             )
     else:
-        await event.edit("**ERROR:** Silahkan Cek Ulang `BOT_TOKEN` & `BOT_USERNAME` di Heroku.")
+        await event.edit(
+            "**ERROR:** Silahkan Cek Ulang `BOT_TOKEN` & `BOT_USERNAME` di Heroku."
+        )
