@@ -3,8 +3,7 @@ from telethon.tl.functions.users import GetFullUserRequest
 
 from userbot import HEROKU_API_KEY, HEROKU_APP_NAME, SUDO_USERS, bot
 from userbot.events import man_cmd
-from userbot.utils import edit_delete as eod
-from userbot.utils import edit_or_reply as eor
+from userbot.utils import edit_delete, edit_or_reply
 
 Heroku = heroku3.from_key(HEROKU_API_KEY)
 heroku_api = "https://api.heroku.com"
@@ -16,19 +15,19 @@ async def sudo(event):
     sudo = "True" if SUDO_USERS else "False"
     users = sudousers
     if sudo == "True":
-        await eor(event, f"📍 **Sudo :**  `Enabled`\n\n📝 **Sudo users :**  `{users}`")
+        await edit_or_reply(event, f"📍 **Sudo :**  `Enabled`\n\n📝 **Sudo users :**  `{users}`")
     else:
-        await eod(event, f"📍 **Sudo :**  `Disabled`")
+        await edit_delete(event, f"📍 **Sudo :**  `Disabled`")
 
 
 @bot.on(man_cmd(pattern="addsudo(?: |$)"))
 async def add(event):
-    ok = await eor(event, "**Adding Sudo User...**")
+    ok = await edit_or_reply(event, "**Adding Sudo User...**")
     bot = "SUDO_USERS"
     if HEROKU_APP_NAME is not None:
         app = Heroku.app(HEROKU_APP_NAME)
     else:
-        await eod(
+        await edit_delete(
             ok,
             "**Silahkan Set-Up**  `HEROKU_APP_NAME` **untuk menambahkan pengguna sudo!!**",
         )
@@ -39,7 +38,7 @@ async def add(event):
     try:
         target = await get_user(event)
     except Exception:
-        await eod(ok, f"Reply to a user to add them in sudo.")
+        await edit_delete(ok, f"Reply to a user to add them in sudo.")
     if sudousers:
         newsudo = f"{sudousers} {target}"
     else:
@@ -52,12 +51,12 @@ async def add(event):
 
 @bot.on(man_cmd(pattern="rmsudo(?: |$)"))
 async def _(event):
-    ok = await eor(event, "**🚫 Removing Sudo User...**")
+    ok = await edit_or_reply(event, "**🚫 Removing Sudo User...**")
     bot = "SUDO_USERS"
     if HEROKU_APP_NAME is not None:
         app = Heroku.app(HEROKU_APP_NAME)
     else:
-        await eod(ok, "**Please Set-Up**  HEROKU_APP_NAME to remove sudo users!!")
+        await edit_delete(ok, "**Please Set-Up**  HEROKU_APP_NAME to remove sudo users!!")
         return
     heroku_Config = app.config()
     if event is None:
@@ -66,7 +65,7 @@ async def _(event):
         target = await get_user(event)
         gett = str(target)
     except Exception:
-        await eod(ok, f"Reply to a user to remove them from sudo.")
+        await edit_delete(ok, f"Reply to a user to remove them from sudo.")
     if gett in sudousers:
         newsudo = sudousers.replace(gett, "")
         await ok.edit(
