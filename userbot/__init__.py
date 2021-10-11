@@ -516,27 +516,6 @@ with bot:
                 )
             await event.answer([result] if result else None)
 
-        @tgbot.on(callbackquery.CallbackQuery(data=compile(b"reopen")))
-        async def reopn(event):
-            if event.query.user_id == bot.uid or event.query.user_id in SUDO_USERS:
-                current_page_number = 0
-                simp = button(current_page_number, CMD_HELP)
-                veriler = button(0, sorted(CMD_HELP))
-                apn = []
-                for x in CMD_LIST.values():
-                    for y in x:
-                        apn.append(y)
-                await event.edit(
-                    f"🔰 **[{user.first_name}](tg://user?id={user.id})**\n\n📜 __No.of Plugins__ : `{len(CMD_HELP)}` \n🗂️ __Commands__ : `{len(apn)}`\n🗒️ __Page__ : 1/{veriler[0]}",
-                    buttons=simp[1],
-                    link_preview=False,
-                )
-            else:
-                reply_pop_up_alert = (
-                    f"Kamu Tidak diizinkan, ini Userbot Milik {ALIVE_NAME}"
-                )
-                await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
-
         @tgbot.on(
             events.callbackquery.CallbackQuery(
                 data=re.compile(rb"helpme_next\((.+?)\)")
@@ -559,7 +538,7 @@ with bot:
         async def on_plug_in_callback_query_handler(event):
             if event.query.user_id == bot.uid or event.query.user_id in SUDO_USERS:
                 databack = custom.Button.inline(
-                    f"• Re-Open Menu •", data="reopen")
+                    f"• Re-Open Menu •", data="helpme_prev")
                 await event.edit(f"**⚜️ Help Mode Button Ditutup! ⚜️**", buttons=databack, link_preview=False)
             else:
                 reply_pop_up_alert = (
