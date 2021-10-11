@@ -91,9 +91,9 @@ def sudo_cmd(pattern=None, command=None, **args):
             args["pattern"] = re.compile(pattern)
             cmd = pattern.replace("$", "").replace("^", "").replace("\\", "")
             try:
-                SUDO_LIST[file_test].append(cmd)
+                CMD_HELP[file_test].append(cmd)
             except BaseException:
-                SUDO_LIST.update({file_test: [cmd]})
+                CMD_HELP.update({file_test: [cmd]})
         else:
             if len(SUDO_HANDLER) == 2:
                 manreg = "^" + SUDO_HANDLER
@@ -115,9 +115,9 @@ def sudo_cmd(pattern=None, command=None, **args):
                         "^",
                         ""))
             try:
-                SUDO_LIST[file_test].append(cmd)
+                CMD_HELP[file_test].append(cmd)
             except BaseException:
-                SUDO_LIST.update({file_test: [cmd]})
+                CMD_HELP.update({file_test: [cmd]})
     args["outgoing"] = True
     if allow_sudo:
         args["from_users"] = list(SUDO_USERS)
