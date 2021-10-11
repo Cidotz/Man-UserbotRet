@@ -15,7 +15,9 @@ async def sudo(event):
     sudo = "True" if SUDO_USERS else "False"
     users = sudousers
     if sudo == "True":
-        await edit_or_reply(event, f"📍 **Sudo :**  `Enabled`\n\n📝 **Sudo users :**  `{users}`")
+        await edit_or_reply(
+            event, f"📍 **Sudo :**  `Enabled`\n\n📝 **Sudo users :**  `{users}`"
+        )
     else:
         await edit_delete(event, f"📍 **Sudo :**  `Disabled`")
 
@@ -56,7 +58,9 @@ async def _(event):
     if HEROKU_APP_NAME is not None:
         app = Heroku.app(HEROKU_APP_NAME)
     else:
-        await edit_delete(ok, "**Please Set-Up**  HEROKU_APP_NAME to remove sudo users!!")
+        await edit_delete(
+            ok, "**Please Set-Up**  HEROKU_APP_NAME to remove sudo users!!"
+        )
         return
     heroku_Config = app.config()
     if event is None:
