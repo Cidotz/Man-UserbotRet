@@ -25,7 +25,7 @@ from userbot import bot
 from userbot.events import man_cmd
 
 
-@bot.on(man_cmd(pattern="helpme"))
+@bot.on(man_cmd(outgoing=True, pattern=r"helpme"))
 async def _(event):
     if event.fwd_from:
         return
@@ -62,5 +62,5 @@ async def _(event):
             )
     else:
         await event.edit(
-            "**ERROR:** Silahkan Cek Ulang `BOT_TOKEN` & `BOT_USERNAME` di Heroku."
+            "**Silahkan Buat Bot Token di @BotFather dan Tambahkan Var** `BOT_TOKEN` & `BOT_USERNAME`"
         )
