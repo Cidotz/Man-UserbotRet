@@ -536,7 +536,7 @@ with bot:
 
         @tgbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"close")))
         async def on_plug_in_callback_query_handler(event):
-            if event.query.user_id == bot.uid or event.query.user_id in DEVS:
+            if event.query.user_id == uid or event.query.user_id in DEVS:
                 await event.edit("**Help Mode Button Ditutup!**")
             else:
                 reply_pop_up_alert = (
