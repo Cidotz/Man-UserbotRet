@@ -184,6 +184,9 @@ ALIVE_NAME = os.environ.get("ALIVE_NAME", "Man")
 # Custom Emoji Alive
 ALIVE_EMOJI = os.environ.get("ALIVE_EMOJI", "⚡️")
 
+# Custom Emoji Alive
+INLINE_EMOJI = os.environ.get("INLINE_EMOJI", "✗")
+
 # Custom icon HELP
 ICON_HELP = os.environ.get("ICON_HELP", "❉")
 
@@ -406,7 +409,7 @@ def paginate_help(page_number, loaded_modules, prefix):
     helpable_modules = [p for p in loaded_modules if not p.startswith("_")]
     helpable_modules = sorted(helpable_modules)
     modules = [
-        custom.Button.inline("{} {} ✘".format("✘", x), data="ub_modul_{}".format(x))
+        custom.Button.inline(f"{} {} {INLINE_EMOJI}".format(f"{INLINE_EMOJI}", x), data="ub_modul_{}".format(x))
         for x in helpable_modules
     ]
     pairs = list(
