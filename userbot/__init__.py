@@ -517,9 +517,9 @@ with bot:
             await event.answer([result] if result else None)
 
         @tgbot.on(callbackquery.CallbackQuery(data=compile(b"reopen")))
-            async def reopn(event):
+        async def reopn(event):
             if event.query.user_id == bot.uid or event.query.user_id in SUDO_USERS:
-                current_page_number=0
+                current_page_number = 0
                 simp = button(current_page_number, CMD_HELP)
                 veriler = button(0, sorted(CMD_HELP))
                 apn = []
