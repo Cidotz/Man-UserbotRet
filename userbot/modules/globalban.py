@@ -296,7 +296,7 @@ async def _(event):
                         view_messages=False,
                     )
                     await event.reply(
-                        f"**#GBanned_User** Joined.\n\n** • First Name::** [{user.first_name}](tg://user?id={user.id})\n • **Action:** `Banned`"
+                        f"**#GBanned_User** Joined.\n\n** • First Name:** [{user.first_name}](tg://user?id={user.id})\n • **Action:** `Banned`"
                     )
                 except BaseException:
                     pass
