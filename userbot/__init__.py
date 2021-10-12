@@ -220,6 +220,9 @@ S_PACK_NAME = os.environ.get("S_PACK_NAME", f"{ALIVE_NAME} Sticker Pack")
 ALIVE_LOGO = os.environ.get(
     "ALIVE_LOGO") or "https://telegra.ph/file/9dc4e335feaaf6a214818.jpg"
 
+INLINE_PIC = os.environ.get(
+    "INLINE_PIC") or "https://telegra.ph/file/9dc4e335feaaf6a214818.jpg"
+
 # Last.fm Module
 BIO_PREFIX = os.environ.get("BIO_PREFIX", None)
 DEFAULT_BIO = os.environ.get("DEFAULT_BIO", None)
@@ -483,6 +486,11 @@ with bot:
                     title="Repository",
                     description="Repository Man - Userbot",
                     url="https://t.me/SharingUserbot",
+                    thumb=InputWebDocument(
+                        INLINE_PIC,
+                        0,
+                        "image/jpeg",
+                        []),
                     text="**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **UserMode: :** **Owner Repo :** [Risman](https://t.me/mrismanaziz)\n✣ **Support :** @Lunatic0de\n✣ **Repository :** [Man-Userbot](https://github.com/mrismanaziz/Man-Userbot)\n➖➖➖➖➖➖➖➖➖➖",
                     buttons=[
                         [
@@ -502,7 +510,7 @@ with bot:
                     description="Man - UserBot | Telethon",
                     url="https://t.me/SharingUserbot",
                     thumb=InputWebDocument(
-                        ALIVE_LOGO,
+                        INLINE_PIC,
                         0,
                         "image/jpeg",
                         []),
@@ -519,7 +527,7 @@ with bot:
                     ],
                     link_preview=False,
                 )
-            await event.answer([result] if result else None)
+            await event.answer([result], switch_pm="👥 USERBOT PORTAL", switch_pm_param="start")
 
         @tgbot.on(
             events.callbackquery.CallbackQuery(
