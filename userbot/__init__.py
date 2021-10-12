@@ -41,6 +41,7 @@ load_dotenv("config.env")
 StartTime = time.time()
 
 CMD_LIST = {}
+SUDO_LIST = {}
 # for later purposes
 CMD_HELP = {}
 INT_PLUG = ""
