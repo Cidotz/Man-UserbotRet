@@ -539,8 +539,8 @@ with bot:
         async def on_plug_in_callback_query_handler(event):
             if event.query.user_id == uid:
                 current_page_number = int(looters)
-                buttons = paginate_help(current_page_number, plugins, "helpme")
-                text = f"\n**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** {DEFAULTUSER}\n✣ **Plugins :** `{len(plugins)}`\n**Menu Help** `.help` <nama plugin>"
+                buttons = paginate_help(current_page_number, dugmeler, "helpme")
+                text = f"\n**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** {DEFAULTUSER}\n✣ **Plugins :** `{len(dugmeler)}`\n**Menu Help** `.help` <nama plugin>"
                 await event.edit(text,
                                  file=INLINE_PIC,
                                  buttons=buttons,
