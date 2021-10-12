@@ -3,7 +3,6 @@
 # Recode by @mrismanaziz
 
 import asyncio
-import os
 from datetime import datetime
 
 from telethon import events
@@ -57,12 +56,12 @@ async def set_not_afk(event):
         )
         try:
             await unsave_gif(event, xx)
-        except:
+        except BaseException:
             pass
         try:
             await event.client.send_message(
                 BOTLOG_CHATID,
-                f"**#AFK Mode** = `False`\n{ALIVE_NAME} Pengangguran So Sibuk Balik Lagi!**\nDari AFK :** `{total_afk_time}` **Yang Lalu**"
+                f"**#AFK Mode** = `False`\n{ALIVE_NAME} Pengangguran So Sibuk Balik Lagi!**\nDari AFK :** `{total_afk_time}` **Yang Lalu**",
             )
         except BaseException:
             pass
@@ -73,9 +72,7 @@ async def set_not_afk(event):
 
 
 @bot.on(
-    events.NewMessage(
-        incoming=True, func=lambda e: bool(e.mentioned or e.is_private)
-    )
+    events.NewMessage(incoming=True, func=lambda e: bool(e.mentioned or e.is_private))
 )
 async def on_afk(event):
     if event.fwd_from:
@@ -97,16 +94,18 @@ async def on_afk(event):
     if USER_AFK and not (await event.get_sender()).bot:
         msg = None
         if reason == "":
-            message_to_reply = f"**✘ Maaf {ALIVE_NAME} Sedang AFK** `{total_afk_time}` **Yang Lalu ✘**"
+            message_to_reply = (
+                f"**✘ Maaf {ALIVE_NAME} Sedang AFK** `{total_afk_time}` **Yang Lalu ✘**"
+            )
         else:
             message_to_reply = (
                 f"**✘ {ALIVE_NAME} Sedang AFK** `{total_afk_time}` **Yang Lalu ✘**\n"
                 + f"**✦҈͜͡➳ Karena :** `{reason}`"
-                )
+            )
         msg = await event.reply(message_to_reply, file=pic)
         try:
             await unsave_gif(event, msg)
-        except:
+        except BaseException:
             pass
         await asyncio.sleep(2)
         if event.chat_id in last_afk_message:
@@ -114,9 +113,7 @@ async def on_afk(event):
         last_afk_message[event.chat_id] = msg
 
 
-@register(
-    outgoing=True, pattern=r"^\.afk ?(.*)", disable_errors=True
-)
+@register(outgoing=True, pattern=r"^\.afk ?(.*)", disable_errors=True)
 async def _(event):
     if event.fwd_from:
         return
@@ -145,43 +142,45 @@ async def _(event):
             afk_time = datetime.datetime.now()
         if owo == "":
             USER_AFK = f"yes: not-mentiond {pic}"
-            x = await bot.send_message(
-                event.chat_id, f"**Bye Gua AFK Dulu**", file=pic)
+            x = await bot.send_message(event.chat_id, f"**Bye Gua AFK Dulu**", file=pic)
             try:
                 await unsave_gif(event, x)
-            except:
+            except BaseException:
                 pass
             await asyncio.sleep(0.001)
             await event.delete()
             try:
                 xy = await bot.send_message(
-                    BOTLOG_CHATID,
-                    f"**#AFK Mode** = `True`",file=pic
-                    )
+                    BOTLOG_CHATID, f"**#AFK Mode** = `True`", file=pic
+                )
                 try:
                     await unsave_gif(event, xy)
-                except:
+                except BaseException:
                     pass
             except Exception as e:
                 logger.warn(str(e))
         else:
             USER_AFK = f"yes: {reason} {pic}"
             x = await bot.send_message(
-                event.chat_id, f"**Bye Gua AFK Dulu**\n\n**Karena :** `{reason}`", file=pic)
+                event.chat_id,
+                f"**Bye Gua AFK Dulu**\n\n**Karena :** `{reason}`",
+                file=pic,
+            )
             try:
                 await unsave_gif(event, x)
-            except:
+            except BaseException:
                 pass
             await asyncio.sleep(0.001)
             await event.delete()
             try:
                 xy = await bot.send_message(
                     BOTLOG_CHATID,
-                    f"**#AFK Mode** = `True`\n**Karena:** `{reason}`",file=pic
-                    )
+                    f"**#AFK Mode** = `True`\n**Karena:** `{reason}`",
+                    file=pic,
+                )
                 try:
                     await unsave_gif(event, xy)
-                except:
+                except BaseException:
                     pass
             except Exception as e:
                 logger.warn(str(e))
