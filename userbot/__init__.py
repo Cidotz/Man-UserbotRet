@@ -500,6 +500,7 @@ with bot:
                     title="✗ Man-Userbot ✗",
                     description="Man - UserBot | Telethon",
                     url="https://t.me/SharingUserbot",
+                    thumb=InputWebDocument(ALIVE_LOGO, 0, "image/jpeg", []),
                     text=f"**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **UserMode:** [{user.first_name}](tg://user?id={user.id})\n✣ **Assistant:** {BOT_USERNAME}\n➖➖➖➖➖➖➖➖➖➖\n**Support:** @Lunatic0de\n➖➖➖➖➖➖➖➖➖➖",
                     buttons=[
                         [
