@@ -15,7 +15,7 @@ from telethon import events
 from time import gmtime, strftime
 from traceback import format_exc
 
-from userbot import CMD_HELP, CMD_HANDLER, LOGSPAMMER, SUDO_HANDLER, SUDO_USERS, bot
+from userbot import CMD_HELP, CMD_HANDLER, CMD_LIST, LOGSPAMMER, SUDO_HANDLER, SUDO_LIST, SUDO_USERS, bot
 
 
 def man_cmd(pattern=None, command=None, **args):
@@ -32,9 +32,9 @@ def man_cmd(pattern=None, command=None, **args):
             args["pattern"] = re.compile(pattern)
             cmd = pattern.replace("$", "").replace("^", "").replace("\\", "")
             try:
-                CMD_HELP[file_test].append(cmd)
+                CMD_LIST[file_test].append(cmd)
             except BaseException:
-                CMD_HELP.update({file_test: [cmd]})
+                CMD_LIST.update({file_test: [cmd]})
         else:
             if len(CMD_HANDLER) == 2:
                 catreg = "^" + CMD_HANDLER
@@ -56,9 +56,9 @@ def man_cmd(pattern=None, command=None, **args):
                         "^",
                         ""))
             try:
-                CMD_HELP[file_test].append(cmd)
+                CMD_LIST[file_test].append(cmd)
             except BaseException:
-                CMD_HELP.update({file_test: [cmd]})
+                CMD_LIST.update({file_test: [cmd]})
 
     args["outgoing"] = True
     # decides that other users can use it or not
@@ -91,9 +91,9 @@ def sudo_cmd(pattern=None, command=None, **args):
             args["pattern"] = re.compile(pattern)
             cmd = pattern.replace("$", "").replace("^", "").replace("\\", "")
             try:
-                CMD_HELP[file_test].append(cmd)
+                SUDO_LIST[file_test].append(cmd)
             except BaseException:
-                CMD_HELP.update({file_test: [cmd]})
+                SUDO_LIST.update({file_test: [cmd]})
         else:
             if len(SUDO_HANDLER) == 2:
                 manreg = "^" + SUDO_HANDLER
@@ -115,9 +115,9 @@ def sudo_cmd(pattern=None, command=None, **args):
                         "^",
                         ""))
             try:
-                CMD_HELP[file_test].append(cmd)
+                SUDO_LIST[file_test].append(cmd)
             except BaseException:
-                CMD_HELP.update({file_test: [cmd]})
+                SUDO_LIST.update({file_test: [cmd]})
     args["outgoing"] = True
     if allow_sudo:
         args["from_users"] = list(SUDO_USERS)
