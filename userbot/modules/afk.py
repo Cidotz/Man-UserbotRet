@@ -18,6 +18,7 @@ from userbot import (  # noqa pylint: disable=unused-import isort:skip
     CMD_HELP,
     COUNT_MSG,
     ISAFK,
+    LOGS,
     PM_AUTO_BAN,
     USERS,
     bot,
@@ -158,7 +159,7 @@ async def _(event):
                 except BaseException:
                     pass
             except Exception as e:
-                logger.warn(str(e))
+                LOGS.warn(str(e))
         else:
             USER_AFK = f"yes: {reason} {pic}"
             x = await bot.send_message(
@@ -183,7 +184,7 @@ async def _(event):
                 except BaseException:
                     pass
             except Exception as e:
-                logger.warn(str(e))
+                LOGS.warn(str(e))
 
 
 CMD_HELP.update(
