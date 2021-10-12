@@ -478,7 +478,7 @@ with bot:
                 result = builder.photo(
                     file=logoman,
                     link_preview=False,
-                    f"**✗ Man - Userbot Inline Menu ✗**\n\n✣ ** Owner ** [{user.first_name}](tg: // user?id={user.id})\n✣ ** Jumlah ** `{len(dugmeler)}` Modules),
+                    text=f"**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** [{user.first_name}](tg://user?id={user.id})\n✣ **Jumlah** `{len(dugmeler)}` Modules",
                     buttons = buttons,
                 )
             elif query.startswith("repo"):
@@ -529,7 +529,7 @@ with bot:
                 )
             await event.answer([result], switch_pm = "👥 USERBOT PORTAL", switch_pm_param = "start")
 
-        @ tgbot.on(
+        @tgbot.on(
             events.callbackquery.CallbackQuery(
                 data=re.compile(rb"reopen")
             )
@@ -549,7 +549,7 @@ with bot:
                 reply_pop_up_alert=f"Kamu Tidak diizinkan, ini Userbot Milik {ALIVE_NAME}"
                 await event.answer(reply_pop_up_alert, cache_time = 0, alert = True)
 
-        @ tgbot.on(
+        @tgbot.on(
             events.callbackquery.CallbackQuery(
                 data=re.compile(rb"helpme_next\((.+?)\)")
             )
