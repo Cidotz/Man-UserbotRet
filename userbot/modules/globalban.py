@@ -281,6 +281,26 @@ async def gablist(event):
     await edit_or_reply(event, GBANNED_LIST)
 
 
+@bot.on(events.ChatAction)
+async def _(event):
+    if event.user_joined or event.added_by:
+        user = await event.get_user()
+        chat = await event.get_chat()
+        if gban_sql.is_gbanned(user.id):
+            if chat.admin_rights:
+                try:
+                    await event.client.edit_permissions(
+                        chat.id,
+                        user.id,
+                        view_messages=False,
+                    )
+                    gban_watcher = f"⚠️⚠️**Warning**⚠️⚠️\n\n`Gbanned User Joined the chat!!`\n**⚜️ Victim Id :**  [{user.first_name}](tg://user?id={user.id})\n"
+                    gban_watcher += f"**🔥 Action 🔥**  \n`Banned this piece of shit....` **AGAIN!**"
+                    await event.reply(gban_watcher)
+                except BaseException:
+                    pass
+
+
 # Ported by @mrismanaziz
 # FROM Man-Userbot <https://github.com/mrismanaziz/Man-Userbot>
 # t.me/SharingUserbot
