@@ -8,21 +8,8 @@ import datetime
 from telethon import events
 from telethon.tl import functions, types
 
+from userbot import BOTLOG_CHATID, CMD_HELP, LOGS, bot
 from userbot.events import register
-
-from userbot import (
-    AFKREASON,
-    ALIVE_NAME,
-    BOTLOG,
-    BOTLOG_CHATID,
-    CMD_HELP,
-    COUNT_MSG,
-    ISAFK,
-    LOGS,
-    PM_AUTO_BAN,
-    USERS,
-    bot,
-)
 
 global USER_AFK
 global afk_time
@@ -96,9 +83,7 @@ async def on_afk(event):
     if USER_AFK and not (await event.get_sender()).bot:
         msg = None
         if reason == "":
-            message_to_reply = (
-                f"**✘ Maaf {user.first_name} Sedang AFK** `{total_afk_time}` **Yang Lalu ✘**"
-            )
+            message_to_reply = f"**✘ Maaf {user.first_name} Sedang AFK** `{total_afk_time}` **Yang Lalu ✘**"
         else:
             message_to_reply = (
                 f"**✘ {user.first_name} Sedang AFK** `{total_afk_time}` **Yang Lalu ✘**\n"
