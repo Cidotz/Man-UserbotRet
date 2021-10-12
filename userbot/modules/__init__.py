@@ -48,11 +48,10 @@ from userbot.utils.tools import (
 cmd = CMD_HANDLER
 scmd = SUDO_HANDLER
 
-user = bot.get_me()
-OWNER_NAME = user.first_name
-OWNER_ID = user.id
-mention = f"[{user.first_name}](tg://user?id={user.id})"
-hmention = f"<a href = tg://user?id={user.id}>{Config.first_name}</a>"
+OWNER_NAME = bot.me.first_name
+OWNER_ID = bot.uid
+mention = f"[{OWNER_NAME}](tg://user?id={OWNER_ID})"
+hmention = f"<a href = tg://user?id={OWNER_ID}>{OWNER_NAME}</a>"
 my_channel = CHANNEL or "Lunatic0de"
 my_group = GROUP or "SharingUserbot"
 if "@" in my_channel:
