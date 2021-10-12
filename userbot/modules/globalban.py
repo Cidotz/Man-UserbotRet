@@ -9,7 +9,6 @@ import base64
 from datetime import datetime
 
 from telethon import events
-from telethon.events import ChatAction
 from telethon.errors import BadRequestError
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.functions.messages import ImportChatInviteRequest
