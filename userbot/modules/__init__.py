@@ -25,10 +25,9 @@ from userbot import (
     SUDO_USERS,
     bot,
 )
+from userbot.events import *
 from userbot.modules import *
 from userbot.utils import *
-from userbot.utils.core import *
-from userbot.utils.resources import *
 from userbot.utils.tools import (
     check_media,
     edit_delete,
