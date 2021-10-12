@@ -4,7 +4,63 @@
 # you may not use this file except in compliance with the License.
 #
 """ Init file which loads all of the modules """
-from userbot import LOGS
+import datetime
+import time
+
+from userbot import *
+from userbot.utils import *
+from userbot.utils import 
+from userbot.utils.core import *
+from userbot.utils.resources import *
+from userbot.modules import *
+from userbot import CHANNEL, CMD_HANDLER, LOGS, GROUP, SUDO_HANDLER, SUDO_USERS, bot
+from userbot.utils.tools import (
+    humanbytes,
+    time_formatter,
+    human_to_bytes,
+    md5,
+    check_media,
+    run_cmd,
+    runcmd,
+    take_screen_shot,
+    post_to_telegraph,
+    media_to_pic,
+    edit_delete,
+    edit_or_reply,
+    reply_id,
+    media_type
+)
+
+cmd = CMD_HANDLER
+scmd = SUDO_HANDLER
+
+user = bot.get_me()
+mention = f"[{user.first_name}](tg://user?id={user.id})"
+hmention = f"<a href = tg://user?id={user.id}>{Config.first_name}</a>"
+my_channel = CHANNEL or "Lunatic0de"
+my_group = GROUP or "SharingUserbot"
+if "@" in my_channel:
+    my_channel = my_channel.replace("@", "")
+if "@" in my_group:
+    my_group = my_group.replace("@", "")
+
+
+logo = "./userbot/resources/logo.jpg"
+
+
+sudos = SUDO_USERS
+if sudos:
+    is_sudo = "True"
+else:
+    is_sudo = "False"
+
+
+async def get_user_id(ids):
+    if str(ids).isdigit():
+        userid = int(ids)
+    else:
+        userid = (await bot.get_entity(ids)).id
+    return userid
 
 
 def __list_all_modules():
