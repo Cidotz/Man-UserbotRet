@@ -18,6 +18,7 @@ from userbot import (
     CHANNEL,
     CMD_HANDLER,
     CMD_HELP,
+    DEVS,
     GROUP,
     LOGS,
     SUDO_HANDLER,
