@@ -267,19 +267,36 @@ async def ungban(event):
 async def gablist(event):
     if event.fwd_from:
         return
-    gbanned_users = gban_sql.get_all_gbanned()
-    GBANNED_LIST = "**List Global Banned Saat Ini**\n"
-    if len(gbanned_users) > 0:
-        for a_user in gbanned_users:
-            if a_user.reason:
-                GBANNED_LIST += f"👉 [{a_user.chat_id}](tg://user?id={a_user.chat_id}) **Reason** `{a_user.reason}`\n"
-            else:
-                GBANNED_LIST += (
-                    f"👉 [{a_user.chat_id}](tg://user?id={a_user.chat_id}) `No Reason`\n"
-                )
+    users = gban_sql.get_all_gbanned()
+    x = await edit_or_reply(event, "`Processing...`")
+    msg = ""
+    if not users:
+        return await x.edit("`Anda belum meng-GBan siapa pun!`")
+    for i in users:
+        try:
+            name = (await event.client.get_entity(int(i))).first_name
+        except BaseException:
+            name = i
+        msg += f"<strong>User</strong>: <a href=tg://user?id={i}>{name}</a>\n"
+        reason = users[i]
+        msg += f"<strong>Reason</strong>: {reason}\n\n" if reason is not None else "\n"
+    gbanned_users = f"<strong>List Global Banned Saat Ini</strong>:\n\n{msg}"
+    if len(gbanned_users) > 4096:
+        with open("gbanned.txt", "w") as f:
+            f.write(
+                gbanned_users.replace("<strong>", "")
+                .replace("</strong>", "")
+                .replace("<a href=tg://user?id=", "")
+                .replace("</a>", "")
+            )
+        await x.reply(
+            file="gbanned.txt",
+            message="**List Global Banned Saat Ini**",
+        )
+        os.remove("gbanned.txt")
+        await x.delete()
     else:
-        GBANNED_LIST = "Belum ada Pengguna yang Di-Gban"
-    await edit_or_reply(event, GBANNED_LIST)
+        await x.edit(gbanned_users, parse_mode="html")
 
 
 @bot.on(events.ChatAction)
