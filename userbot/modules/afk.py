@@ -10,7 +10,7 @@ from telethon.tl import functions, types
 
 from userbot.events import register
 
-from userbot import (  # noqa pylint: disable=unused-import isort:skip
+from userbot import (
     AFKREASON,
     ALIVE_NAME,
     BOTLOG,
@@ -33,6 +33,7 @@ USER_AFK = {}
 afk_time = None
 last_afk_message = {}
 afk_start = {}
+user = bot.get_me()
 
 
 @bot.on(events.NewMessage(outgoing=True))
@@ -52,7 +53,7 @@ async def set_not_afk(event):
     if "#" not in current_message and "yes" in USER_AFK:
         xx = await event.client.send_message(
             event.chat_id,
-            f"**{ALIVE_NAME} Pengangguran So Sibuk Balik Lagi!**\n**Dari AFK :** `{total_afk_time}` **Yang Lalu**",
+            f"**{user.first_name} Pengangguran So Sibuk Balik Lagi!**\n**Dari AFK :** `{total_afk_time}` **Yang Lalu**",
             file=pic,
         )
         try:
@@ -62,7 +63,7 @@ async def set_not_afk(event):
         try:
             await event.client.send_message(
                 BOTLOG_CHATID,
-                f"**#AFK Mode** = `False`\n{ALIVE_NAME} Pengangguran So Sibuk Balik Lagi!**\nDari AFK :** `{total_afk_time}` **Yang Lalu**",
+                f"**#AFK Mode** = `False`\nDari AFK :** `{total_afk_time}` **Yang Lalu**",
             )
         except BaseException:
             pass
@@ -96,11 +97,11 @@ async def on_afk(event):
         msg = None
         if reason == "":
             message_to_reply = (
-                f"**✘ Maaf {ALIVE_NAME} Sedang AFK** `{total_afk_time}` **Yang Lalu ✘**"
+                f"**✘ Maaf {user.first_name} Sedang AFK** `{total_afk_time}` **Yang Lalu ✘**"
             )
         else:
             message_to_reply = (
-                f"**✘ {ALIVE_NAME} Sedang AFK** `{total_afk_time}` **Yang Lalu ✘**\n"
+                f"**✘ {user.first_name} Sedang AFK** `{total_afk_time}` **Yang Lalu ✘**\n"
                 + f"**✦҈͜͡➳ Karena :** `{reason}`"
             )
         msg = await event.reply(message_to_reply, file=pic)
