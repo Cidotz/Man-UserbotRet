@@ -10,6 +10,7 @@ import io
 import sys
 import traceback
 from os import remove
+from pprint import pprint
 
 from userbot import CMD_HELP, bot
 from userbot.events import register
