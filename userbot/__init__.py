@@ -478,21 +478,21 @@ with bot:
                 result = builder.photo(
                     file=logoman,
                     link_preview=False,
-                    f"**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** [{user.first_name}](tg://user?id={user.id})\n✣ **Jumlah** `{len(dugmeler)}` Modules),
-                    buttons=buttons,
+                    f"**✗ Man - Userbot Inline Menu ✗**\n\n✣ ** Owner ** [{user.first_name}](tg: // user?id={user.id})\n✣ ** Jumlah ** `{len(dugmeler)}` Modules),
+                    buttons = buttons,
                 )
             elif query.startswith("repo"):
-                result = builder.article(
-                    title="Repository",
-                    description="Repository Man - Userbot",
-                    url="https://t.me/SharingUserbot",
-                    thumb=InputWebDocument(
+                result=builder.article(
+                    title = "Repository",
+                    description = "Repository Man - Userbot",
+                    url = "https://t.me/SharingUserbot",
+                    thumb = InputWebDocument(
                         INLINE_PIC,
                         0,
                         "image/jpeg",
                         []),
-                    text="**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **UserMode: :** **Owner Repo :** [Risman](https://t.me/mrismanaziz)\n✣ **Support :** @Lunatic0de\n✣ **Repository :** [Man-Userbot](https://github.com/mrismanaziz/Man-Userbot)\n➖➖➖➖➖➖➖➖➖➖",
-                    buttons=[
+                    text = "**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **UserMode: :** **Owner Repo :** [Risman](https://t.me/mrismanaziz)\n✣ **Support :** @Lunatic0de\n✣ **Repository :** [Man-Userbot](https://github.com/mrismanaziz/Man-Userbot)\n➖➖➖➖➖➖➖➖➖➖",
+                    buttons = [
                         [
                             custom.Button.url(
                                 "ɢʀᴏᴜᴘ",
@@ -502,20 +502,20 @@ with bot:
                                 "https://github.com/mrismanaziz/Man-Userbot"),
                         ],
                     ],
-                    link_preview=False,
+                    link_preview = False,
                 )
             else:
-                result = builder.article(
-                    title="✗ Man-Userbot ✗",
-                    description="Man - UserBot | Telethon",
-                    url="https://t.me/SharingUserbot",
-                    thumb=InputWebDocument(
+                result=builder.article(
+                    title = "✗ Man-Userbot ✗",
+                    description = "Man - UserBot | Telethon",
+                    url = "https://t.me/SharingUserbot",
+                    thumb = InputWebDocument(
                         INLINE_PIC,
                         0,
                         "image/jpeg",
                         []),
-                    text=f"**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **UserMode:** [{user.first_name}](tg://user?id={user.id})\n✣ **Assistant:** {BOT_USERNAME}\n➖➖➖➖➖➖➖➖➖➖\n**Support:** @Lunatic0de\n➖➖➖➖➖➖➖➖➖➖",
-                    buttons=[
+                    text = f"**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **UserMode:** [{user.first_name}](tg://user?id={user.id})\n✣ **Assistant:** {BOT_USERNAME}\n➖➖➖➖➖➖➖➖➖➖\n**Support:** @Lunatic0de\n➖➖➖➖➖➖➖➖➖➖",
+                    buttons = [
                         [
                             custom.Button.url(
                                 "ɢʀᴏᴜᴘ",
@@ -525,31 +525,31 @@ with bot:
                                 "https://github.com/mrismanaziz/Man-Userbot"),
                         ],
                     ],
-                    link_preview=False,
+                    link_preview = False,
                 )
-            await event.answer([result], switch_pm="👥 USERBOT PORTAL", switch_pm_param="start")
+            await event.answer([result], switch_pm = "👥 USERBOT PORTAL", switch_pm_param = "start")
 
-        @tgbot.on(
+        @ tgbot.on(
             events.callbackquery.CallbackQuery(
                 data=re.compile(rb"reopen")
             )
         )
         async def on_plug_in_callback_query_handler(event):
             if event.query.user_id == uid:
-                current_page_number = int(looters)
-                buttons = paginate_help(
+                current_page_number=int(looters)
+                buttons=paginate_help(
                     current_page_number, dugmeler, "helpme")
-                text = f"**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** [{user.first_name}](tg://user?id={user.id})\n✣ **Jumlah** `{len(dugmeler)}` Modules"
+                text=f"**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** [{user.first_name}](tg://user?id={user.id})\n✣ **Jumlah** `{len(dugmeler)}` Modules"
                 await event.edit(text,
-                                 file=logoman,
-                                 buttons=buttons,
-                                 link_preview=False,
+                                 file = logoman,
+                                 buttons = buttons,
+                                 link_preview = False,
                                  )
             else:
-                reply_pop_up_alert = f"Kamu Tidak diizinkan, ini Userbot Milik {ALIVE_NAME}"
-                await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
+                reply_pop_up_alert=f"Kamu Tidak diizinkan, ini Userbot Milik {ALIVE_NAME}"
+                await event.answer(reply_pop_up_alert, cache_time = 0, alert = True)
 
-        @tgbot.on(
+        @ tgbot.on(
             events.callbackquery.CallbackQuery(
                 data=re.compile(rb"helpme_next\((.+?)\)")
             )
