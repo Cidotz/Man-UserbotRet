@@ -3,7 +3,7 @@
 # Recode by @mrismanaziz
 
 import asyncio
-from datetime import datetime
+import datetime
 
 from telethon import events
 from telethon.tl import functions, types
