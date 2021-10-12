@@ -540,7 +540,7 @@ with bot:
             if event.query.user_id == uid:
                 current_page_number = int(looters)
                 buttons = paginate_help(current_page_number, dugmeler, "helpme")
-                text = f"\n**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** {DEFAULTUSER}\n✣ **Plugins :** `{len(dugmeler)}`\n**Menu Help** `.help` <nama plugin>"
+                text = f"\n**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** [{user.first_name}](tg://user?id={user.id})\n✣ **Plugins :** `{len(dugmeler)}`\n**Menu Help** `.help` <nama plugin>"
                 await event.edit(text,
                                  file=INLINE_PIC,
                                  buttons=buttons,
