@@ -48,10 +48,6 @@ from userbot.utils.tools import (
 cmd = CMD_HANDLER
 scmd = SUDO_HANDLER
 
-OWNER_NAME = bot.first_name
-OWNER_ID = bot.uid
-mention = f"[{OWNER_NAME}](tg://user?id={OWNER_ID})"
-hmention = f"<a href = tg://user?id={OWNER_ID}>{OWNER_NAME}</a>"
 my_channel = CHANNEL or "Lunatic0de"
 my_group = GROUP or "SharingUserbot"
 if "@" in my_channel:
