@@ -4,11 +4,16 @@
 # you may not use this file except in compliance with the License.
 #
 """ Init file which loads all of the modules """
+import asyncio
 import datetime
+import os
 import time
+from random import choice
+from telethon import Button, events
+from telethon.tl import functions, types
 
 from userbot import *
-from userbot import CHANNEL, CMD_HANDLER, GROUP, LOGS, SUDO_HANDLER, SUDO_USERS, bot
+from userbot import CHANNEL, CMD_HELP, CMD_HANDLER, GROUP, LOGS, SUDO_HANDLER, SUDO_USERS, bot
 from userbot.modules import *
 from userbot.utils import *
 from userbot.utils.core import *
@@ -34,6 +39,8 @@ cmd = CMD_HANDLER
 scmd = SUDO_HANDLER
 
 user = bot.get_me()
+OWNER_NAME = user.first_name
+OWNER_ID = user.id
 mention = f"[{user.first_name}](tg://user?id={user.id})"
 hmention = f"<a href = tg://user?id={user.id}>{Config.first_name}</a>"
 my_channel = CHANNEL or "Lunatic0de"
@@ -43,9 +50,7 @@ if "@" in my_channel:
 if "@" in my_group:
     my_group = my_group.replace("@", "")
 
-
 logo = "./userbot/resources/logo.jpg"
-
 
 sudos = SUDO_USERS
 if sudos:
