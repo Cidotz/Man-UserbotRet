@@ -466,6 +466,7 @@ with bot:
         user = bot.get_me()
         uid = user.id
         logo = ALIVE_LOGO
+        logoman = INLINE_PIC
 
         @tgbot.on(events.InlineQuery)
         async def inline_handler(event):
@@ -474,14 +475,11 @@ with bot:
             query = event.text
             if event.query.user_id == uid and query.startswith("@ManUserBot"):
                 buttons = paginate_help(0, dugmeler, "helpme")
-                result = builder.article(
-                    "Harap Gunakan .help Untuk Perintah",
-                    text="{}\n\n**✥ Jumlah Module Yang Tersedia :** `{}` **Module**\n               \n**✥ Daftar Modul Man-Userbot :** \n".format(
-                        "**✗ Man-Userbot Main Menu ✗**",
-                        len(dugmeler),
-                    ),
-                    buttons=buttons,
+                result = builder.photo(
+                    file=logoman,
                     link_preview=False,
+                    f"**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** [{user.first_name}](tg://user?id={user.id})\n✣ **Jumlah** `{len(dugmeler)}` Modules),
+                    buttons=buttons,
                 )
             elif query.startswith("repo"):
                 result = builder.article(
@@ -541,9 +539,9 @@ with bot:
                 current_page_number = int(looters)
                 buttons = paginate_help(
                     current_page_number, dugmeler, "helpme")
-                text = f"\n**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** [{user.first_name}](tg://user?id={user.id})\n✣ **Plugins :** `{len(dugmeler)}`\n**Menu Help** `.help` <nama plugin>"
+                text = f"**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** [{user.first_name}](tg://user?id={user.id})\n✣ **Jumlah** `{len(dugmeler)}` Modules"
                 await event.edit(text,
-                                 file=INLINE_PIC,
+                                 file=logoman,
                                  buttons=buttons,
                                  link_preview=False,
                                  )
