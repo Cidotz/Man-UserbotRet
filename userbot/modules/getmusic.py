@@ -11,16 +11,10 @@ import time
 import deezloader
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
-from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.types import DocumentAttributeAudio, DocumentAttributeVideo
 
-from userbot import (
-    CMD_HELP,
-    DEEZER_ARL_TOKEN,
-    TEMP_DOWNLOAD_DIRECTORY,
-    bot,
-)
+from userbot import CMD_HELP, DEEZER_ARL_TOKEN, TEMP_DOWNLOAD_DIRECTORY, bot
 from userbot.events import register
 from userbot.utils import chrome, progress
 from userbot.utils.FastTelethon import upload_file
