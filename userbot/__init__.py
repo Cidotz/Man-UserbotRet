@@ -415,7 +415,6 @@ with bot:
         logo = ALIVE_LOGO
         logoman = INLINE_PIC
 
-
     @tgbot.on(events.NewMessage(pattern="^/mentionall ?(.*)"))
     async def mentionall(event):
     chat_id = event.chat_id
@@ -478,7 +477,6 @@ with bot:
         spam_chats.remove(chat_id)
     except BaseException:
         pass
-
 
     @tgbot.on(events.NewMessage(pattern="^/cancel$"))
     async def cancel_spam(event):
