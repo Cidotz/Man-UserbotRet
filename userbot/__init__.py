@@ -37,15 +37,7 @@ STORAGE = (lambda n: Storage(Path("data") / n))
 
 load_dotenv("config.env")
 
-
 StartTime = time.time()
-
-CMD_LIST = {}
-SUDO_LIST = {}
-# for later purposes
-CMD_HELP = {}
-INT_PLUG = ""
-LOAD_PLUG = {}
 
 # Bot Logs setup:
 CONSOLE_LOGGER_VERBOSE = sb(os.environ.get("CONSOLE_LOGGER_VERBOSE", "False"))
@@ -352,12 +344,16 @@ except AttributeError:
 COUNT_MSG = 0
 USERS = {}
 COUNT_PM = {}
-ENABLE_KILLME = True
 LASTMSG = {}
 CMD_HELP = {}
+CMD_LIST = {}
+SUDO_LIST = {}
+ZALG_LIST = {}
+LOAD_PLUG = {}
+INT_PLUG = ""
 ISAFK = False
 AFKREASON = None
-ZALG_LIST = {}
+ENABLE_KILLME = True
 
 
 def paginate_help(page_number, loaded_modules, prefix):
