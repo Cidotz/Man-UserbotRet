@@ -9,6 +9,7 @@
 #
 """ Userbot initialization. """
 
+import asyncio
 import os
 import re
 import sys
@@ -414,6 +415,7 @@ with bot:
         uid = user.id
         logo = ALIVE_LOGO
         logoman = INLINE_PIC
+        spam_chats = []
 
     @tgbot.on(events.NewMessage(pattern="^/mentionall ?(.*)"))
     async def mentionall(event):
