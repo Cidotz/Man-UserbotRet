@@ -415,251 +415,255 @@ with bot:
         logo = ALIVE_LOGO
         logoman = INLINE_PIC
 
+
 @tgbot.on(events.NewMessage(pattern="^/mentionall ?(.*)"))
 async def mentionall(event):
-  chat_id = event.chat_id
-  if event.is_private:
-    return await event.respond("__Perintah ini hanya dapat digunakan dalam grup dan channel!__")
-  
-  is_admin = False
-  try:
-    partici_ = await client(GetParticipantRequest(
-      event.chat_id,
-      event.sender_id
-    ))
-  except UserNotParticipantError:
+    chat_id = event.chat_id
+    if event.is_private:
+        return await event.respond("__Perintah ini hanya dapat digunakan dalam grup dan channel!__")
+
     is_admin = False
-  else:
-    if (
-      isinstance(
-        partici_.participant,
-        (
-          ChannelParticipantAdmin,
-          ChannelParticipantCreator
-        )
-      )
-    ):
-      is_admin = True
-  if not is_admin:
-    return await event.respond("__Hanya admin yang bisa mention semua!__")
-  
-  if event.pattern_match.group(1) and event.is_reply:
-    return await event.respond("__Beri saya satu argumen!__")
-  elif event.pattern_match.group(1):
-    mode = "text_on_cmd"
-    msg = event.pattern_match.group(1)
-  elif event.is_reply:
-    mode = "text_on_reply"
-    msg = await event.get_reply_message()
-    if msg == None:
-        return await event.respond("__Saya tidak bisa menyebut anggota untuk pesan lama! (pesan yang dikirim sebelum saya ditambahkan ke grup)__")
-  else:
-    return await event.respond("__Membalas pesan atau memberi saya beberapa teks untuk menyebutkan orang lain!__")
-  
-  spam_chats.append(chat_id)
-  usrnum = 0
-  usrtxt = ''
-  async for usr in client.iter_participants(chat_id):
-    if not chat_id in spam_chats:
-      break
-    usrnum += 1
-    usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}) "
-    if usrnum == 5:
-      if mode == "text_on_cmd":
-        txt = f"{usrtxt}\n\n{msg}"
-        await client.send_message(chat_id, txt)
-      elif mode == "text_on_reply":
-        await msg.reply(usrtxt)
-      await asyncio.sleep(2)
-      usrnum = 0
-      usrtxt = ''
-  try:
-    spam_chats.remove(chat_id)
-  except:
-    pass
+    try:
+        partici_ = await client(GetParticipantRequest(
+            event.chat_id,
+            event.sender_id
+        ))
+    except UserNotParticipantError:
+        is_admin = False
+    else:
+        if (
+            isinstance(
+                partici_.participant,
+                (
+                ChannelParticipantAdmin,
+                ChannelParticipantCreator
+            )
+                )
+        ):
+            is_admin = True
+    if not is_admin:
+        return await event.respond("__Hanya admin yang bisa mention semua!__")
+
+    if event.pattern_match.group(1) and event.is_reply:
+        return await event.respond("__Beri saya satu argumen!__")
+    elif event.pattern_match.group(1):
+        mode = "text_on_cmd"
+        msg = event.pattern_match.group(1)
+    elif event.is_reply:
+        mode = "text_on_reply"
+        msg = await event.get_reply_message()
+        if msg is None:
+            return await event.respond("__Saya tidak bisa menyebut anggota untuk pesan lama! (pesan yang dikirim sebelum saya ditambahkan ke grup)__")
+    else:
+        return await event.respond("__Membalas pesan atau memberi saya beberapa teks untuk menyebutkan orang lain!__")
+
+    spam_chats.append(chat_id)
+    usrnum = 0
+    usrtxt = ''
+    async for usr in client.iter_participants(chat_id):
+        if chat_id not in spam_chats:
+            break
+        usrnum += 1
+        usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}) "
+        if usrnum == 5:
+            if mode == "text_on_cmd":
+                txt = f"{usrtxt}\n\n{msg}"
+                await client.send_message(chat_id, txt)
+            elif mode == "text_on_reply":
+                await msg.reply(usrtxt)
+            await asyncio.sleep(2)
+            usrnum = 0
+            usrtxt = ''
+    try:
+        spam_chats.remove(chat_id)
+    except BaseException:
+        pass
+
 
 @tgbot.on(events.NewMessage(pattern="^/cancel$"))
 async def cancel_spam(event):
-  if not event.chat_id in spam_chats:
-    return await event.respond('__Tidak ada proses yang berjalan...__')
-  else:
-    try:
-      spam_chats.remove(event.chat_id)
-    except:
-      pass
-    return await event.respond('__Stopped.__')
+    if event.chat_id not in spam_chats:
+        return await event.respond('__Tidak ada proses yang berjalan...__')
+    else:
+        try:
+            spam_chats.remove(event.chat_id)
+        except BaseException:
+            pass
+        return await event.respond('__Stopped.__')
 
-
-        @tgbot.on(events.InlineQuery)
-        async def inline_handler(event):
-            builder = event.builder
-            result = None
-            query = event.text
-            if event.query.user_id == uid and query.startswith("@ManUserBot"):
-                buttons = paginate_help(0, dugmeler, "helpme")
-                result = builder.photo(
-                    file=logoman,
-                    link_preview=False,
-                    text=f"**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** [{user.first_name}](tg://user?id={user.id})\n✣ **Jumlah** `{len(dugmeler)}` Modules",
-                    buttons=buttons,
-                )
-            elif query.startswith("repo"):
-                result = builder.article(
-                    title="Repository",
-                    description="Repository Man - Userbot",
-                    url="https://t.me/SharingUserbot",
-                    thumb=InputWebDocument(
-                        INLINE_PIC,
-                        0,
-                        "image/jpeg",
-                        []),
-                    text="**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **UserMode: :** **Owner Repo :** [Risman](https://t.me/mrismanaziz)\n✣ **Support :** @Lunatic0de\n✣ **Repository :** [Man-Userbot](https://github.com/mrismanaziz/Man-Userbot)\n➖➖➖➖➖➖➖➖➖➖",
-                    buttons=[
-                        [
-                            custom.Button.url(
-                                "ɢʀᴏᴜᴘ",
-                                "https://t.me/SharingUserbot"),
-                            custom.Button.url(
-                                "ʀᴇᴘᴏ",
-                                "https://github.com/mrismanaziz/Man-Userbot"),
+          @tgbot.on(events.InlineQuery)
+           async def inline_handler(event):
+                builder = event.builder
+                result = None
+                query = event.text
+                if event.query.user_id == uid and query.startswith(
+                        "@ManUserBot"):
+                    buttons = paginate_help(0, dugmeler, "helpme")
+                    result = builder.photo(
+                        file=logoman,
+                        link_preview=False,
+                        text=f"**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** [{user.first_name}](tg://user?id={user.id})\n✣ **Jumlah** `{len(dugmeler)}` Modules",
+                        buttons=buttons,
+                    )
+                elif query.startswith("repo"):
+                    result = builder.article(
+                        title="Repository",
+                        description="Repository Man - Userbot",
+                        url="https://t.me/SharingUserbot",
+                        thumb=InputWebDocument(
+                            INLINE_PIC,
+                            0,
+                            "image/jpeg",
+                            []),
+                        text="**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **UserMode: :** **Owner Repo :** [Risman](https://t.me/mrismanaziz)\n✣ **Support :** @Lunatic0de\n✣ **Repository :** [Man-Userbot](https://github.com/mrismanaziz/Man-Userbot)\n➖➖➖➖➖➖➖➖➖➖",
+                        buttons=[
+                            [
+                                custom.Button.url(
+                                    "ɢʀᴏᴜᴘ",
+                                    "https://t.me/SharingUserbot"),
+                                custom.Button.url(
+                                    "ʀᴇᴘᴏ",
+                                    "https://github.com/mrismanaziz/Man-Userbot"),
+                            ],
                         ],
-                    ],
-                    link_preview=False,
-                )
-            else:
-                result = builder.article(
-                    title="✗ Man-Userbot ✗",
-                    description="Man - UserBot | Telethon",
-                    url="https://t.me/SharingUserbot",
-                    thumb=InputWebDocument(
-                        INLINE_PIC,
-                        0,
-                        "image/jpeg",
-                        []),
-                    text=f"**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **UserMode:** [{user.first_name}](tg://user?id={user.id})\n✣ **Assistant:** {BOT_USERNAME}\n➖➖➖➖➖➖➖➖➖➖\n**Support:** @Lunatic0de\n➖➖➖➖➖➖➖➖➖➖",
-                    buttons=[
-                        [
-                            custom.Button.url(
-                                "ɢʀᴏᴜᴘ",
-                                "https://t.me/SharingUserbot"),
-                            custom.Button.url(
-                                "ʀᴇᴘᴏ",
-                                "https://github.com/mrismanaziz/Man-Userbot"),
-                        ],
-                    ],
-                    link_preview=False,
-                )
-            await event.answer([result], switch_pm="👥 USERBOT PORTAL", switch_pm_param="start")
-
-        @tgbot.on(
-            events.callbackquery.CallbackQuery(
-                data=re.compile(rb"reopen")
-            )
-        )
-        async def on_plug_in_callback_query_handler(event):
-            if event.query.user_id == uid:
-                current_page_number = int(looters)
-                buttons = paginate_help(
-                    current_page_number, dugmeler, "helpme")
-                text = f"**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** [{user.first_name}](tg://user?id={user.id})\n✣ **Jumlah** `{len(dugmeler)}` Modules"
-                await event.edit(text,
-                                 file=logoman,
-                                 buttons=buttons,
-                                 link_preview=False,
-                                 )
-            else:
-                reply_pop_up_alert = f"Kamu Tidak diizinkan, ini Userbot Milik {ALIVE_NAME}"
-                await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
-
-        @tgbot.on(
-            events.callbackquery.CallbackQuery(
-                data=re.compile(rb"helpme_next\((.+?)\)")
-            )
-        )
-        async def on_plug_in_callback_query_handler(event):
-            if event.query.user_id == uid:
-                current_page_number = int(
-                    event.data_match.group(1).decode("UTF-8"))
-                buttons = paginate_help(
-                    current_page_number + 1, dugmeler, "helpme")
-                await event.edit(buttons=buttons)
-            else:
-                reply_pop_up_alert = (
-                    f"Kamu Tidak diizinkan, ini Userbot Milik {ALIVE_NAME}"
-                )
-                await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
-
-        @tgbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"close")))
-        async def on_plug_in_callback_query_handler(event):
-            if event.query.user_id == uid or event.query.user_id in DEVS:
-                openlagi = custom.Button.inline(
-                    f"• Re-Open Menu •", data="reopen")
-                await event.edit(f"⚜️ **Help Mode Button Ditutup!** ⚜️", buttons=openlagi)
-            else:
-                reply_pop_up_alert = (
-                    f"Kamu Tidak diizinkan, ini Userbot Milik {ALIVE_NAME}"
-                )
-                await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
-
-        @tgbot.on(
-            events.callbackquery.CallbackQuery(
-                data=re.compile(rb"helpme_prev\((.+?)\)")
-            )
-        )
-        async def on_plug_in_callback_query_handler(event):
-            if event.query.user_id == uid:
-                current_page_number = int(
-                    event.data_match.group(1).decode("UTF-8"))
-                buttons = paginate_help(
-                    current_page_number - 1, dugmeler, "helpme")
-                await event.edit(buttons=buttons)
-            else:
-                reply_pop_up_alert = (
-                    f"Kamu Tidak diizinkan, ini Userbot Milik {ALIVE_NAME}"
-                )
-                await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
-
-        @tgbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"ub_modul_(.*)")))
-        async def on_plug_in_callback_query_handler(event):
-            if event.query.user_id == uid:
-                modul_name = event.data_match.group(1).decode("UTF-8")
-
-                cmdhel = str(CMD_HELP[modul_name])
-                if len(cmdhel) > 150:
-                    help_string = (
-                        str(CMD_HELP[modul_name]).replace("`", "")[:150]
-                        + "..."
-                        + "\n\nBaca Teks Berikutnya Ketik .help "
-                        + modul_name
-                        + " "
+                        link_preview=False,
                     )
                 else:
-                    help_string = str(CMD_HELP[modul_name]).replace("`", "")
-
-                reply_pop_up_alert = (
-                    help_string
-                    if help_string is not None
-                    else "{} Tidak ada dokumen yang telah ditulis untuk modul.".format(
-                        modul_name
+                    result = builder.article(
+                        title="✗ Man-Userbot ✗",
+                        description="Man - UserBot | Telethon",
+                        url="https://t.me/SharingUserbot",
+                        thumb=InputWebDocument(
+                            INLINE_PIC,
+                            0,
+                            "image/jpeg",
+                            []),
+                        text=f"**Man - UserBot**\n➖➖➖➖➖➖➖➖➖➖\n✣ **UserMode:** [{user.first_name}](tg://user?id={user.id})\n✣ **Assistant:** {BOT_USERNAME}\n➖➖➖➖➖➖➖➖➖➖\n**Support:** @Lunatic0de\n➖➖➖➖➖➖➖➖➖➖",
+                        buttons=[
+                            [
+                                custom.Button.url(
+                                    "ɢʀᴏᴜᴘ",
+                                    "https://t.me/SharingUserbot"),
+                                custom.Button.url(
+                                    "ʀᴇᴘᴏ",
+                                    "https://github.com/mrismanaziz/Man-Userbot"),
+                            ],
+                        ],
+                        link_preview=False,
                     )
-                )
-            else:
-                reply_pop_up_alert = (
-                    f"Kamu Tidak diizinkan, ini Userbot Milik {ALIVE_NAME}"
-                )
+                await event.answer([result], switch_pm="👥 USERBOT PORTAL", switch_pm_param="start")
 
-            await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
+            @tgbot.on(
+                events.callbackquery.CallbackQuery(
+                    data=re.compile(rb"reopen")
+                )
+            )
+            async def on_plug_in_callback_query_handler(event):
+                if event.query.user_id == uid:
+                    current_page_number = int(looters)
+                    buttons = paginate_help(
+                        current_page_number, dugmeler, "helpme")
+                    text = f"**✗ Man-Userbot Inline Menu ✗**\n\n✣ **Owner** [{user.first_name}](tg://user?id={user.id})\n✣ **Jumlah** `{len(dugmeler)}` Modules"
+                    await event.edit(text,
+                                     file=logoman,
+                                     buttons=buttons,
+                                     link_preview=False,
+                                     )
+                else:
+                    reply_pop_up_alert = f"Kamu Tidak diizinkan, ini Userbot Milik {ALIVE_NAME}"
+                    await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
 
-    except BaseException:
-        LOGS.info(
-            "Help Mode Inline Bot Mu Tidak aktif. Tidak di aktifkan juga tidak apa-apa. "
-            "Untuk Mengaktifkannya Buat bot di @BotFather Lalu Tambahkan var BOT_TOKEN dan BOT_USERNAME. "
-            "Pergi Ke @BotFather lalu settings bot » Pilih mode inline » Turn On. ")
-    try:
-        bot.loop.run_until_complete(check_botlog_chatid())
-    except BaseException:
-        LOGS.info(
-            "var BOTLOG_CHATID kamu belum di isi. "
-            "Buatlah grup telegram dan masukan bot @MissRose_bot lalu ketik /id "
-            "Masukan id grup nya di var BOTLOG_CHATID")
-        sys.exit(1)
+            @tgbot.on(
+                events.callbackquery.CallbackQuery(
+                    data=re.compile(rb"helpme_next\((.+?)\)")
+                )
+            )
+            async def on_plug_in_callback_query_handler(event):
+                if event.query.user_id == uid:
+                    current_page_number = int(
+                        event.data_match.group(1).decode("UTF-8"))
+                    buttons = paginate_help(
+                        current_page_number + 1, dugmeler, "helpme")
+                    await event.edit(buttons=buttons)
+                else:
+                    reply_pop_up_alert = (
+                        f"Kamu Tidak diizinkan, ini Userbot Milik {ALIVE_NAME}"
+                    )
+                    await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
+
+            @tgbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"close")))
+            async def on_plug_in_callback_query_handler(event):
+                if event.query.user_id == uid or event.query.user_id in DEVS:
+                    openlagi = custom.Button.inline(
+                        f"• Re-Open Menu •", data="reopen")
+                    await event.edit(f"⚜️ **Help Mode Button Ditutup!** ⚜️", buttons=openlagi)
+                else:
+                    reply_pop_up_alert = (
+                        f"Kamu Tidak diizinkan, ini Userbot Milik {ALIVE_NAME}"
+                    )
+                    await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
+
+            @tgbot.on(
+                events.callbackquery.CallbackQuery(
+                    data=re.compile(rb"helpme_prev\((.+?)\)")
+                )
+            )
+            async def on_plug_in_callback_query_handler(event):
+                if event.query.user_id == uid:
+                    current_page_number = int(
+                        event.data_match.group(1).decode("UTF-8"))
+                    buttons = paginate_help(
+                        current_page_number - 1, dugmeler, "helpme")
+                    await event.edit(buttons=buttons)
+                else:
+                    reply_pop_up_alert = (
+                        f"Kamu Tidak diizinkan, ini Userbot Milik {ALIVE_NAME}"
+                    )
+                    await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
+
+            @tgbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"ub_modul_(.*)")))
+            async def on_plug_in_callback_query_handler(event):
+                if event.query.user_id == uid:
+                    modul_name = event.data_match.group(1).decode("UTF-8")
+
+                    cmdhel = str(CMD_HELP[modul_name])
+                    if len(cmdhel) > 150:
+                        help_string = (
+                            str(CMD_HELP[modul_name]).replace("`", "")[:150]
+                            + "..."
+                            + "\n\nBaca Teks Berikutnya Ketik .help "
+                            + modul_name
+                            + " "
+                        )
+                    else:
+                        help_string = str(
+                            CMD_HELP[modul_name]).replace(
+        "`", "")
+
+                    reply_pop_up_alert = (
+                        help_string
+                        if help_string is not None
+                        else "{} Tidak ada dokumen yang telah ditulis untuk modul.".format(
+                            modul_name
+                        )
+                    )
+                else:
+                    reply_pop_up_alert = (
+                        f"Kamu Tidak diizinkan, ini Userbot Milik {ALIVE_NAME}"
+                    )
+
+                await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
+
+        except BaseException:
+            LOGS.info(
+                "Help Mode Inline Bot Mu Tidak aktif. Tidak di aktifkan juga tidak apa-apa. "
+                "Untuk Mengaktifkannya Buat bot di @BotFather Lalu Tambahkan var BOT_TOKEN dan BOT_USERNAME. "
+                "Pergi Ke @BotFather lalu settings bot » Pilih mode inline » Turn On. ")
+        try:
+            bot.loop.run_until_complete(check_botlog_chatid())
+        except BaseException:
+            LOGS.info(
+                "var BOTLOG_CHATID kamu belum di isi. "
+                "Buatlah grup telegram dan masukan bot @MissRose_bot lalu ketik /id "
+                "Masukan id grup nya di var BOTLOG_CHATID")
+            sys.exit(1)
