@@ -7,7 +7,6 @@
 import os
 
 import lyricsgenius
-from pylast import User
 
 from userbot import CMD_HELP, GENIUS
 from userbot.events import register
