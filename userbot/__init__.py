@@ -416,8 +416,8 @@ with bot:
         logoman = INLINE_PIC
 
 
-@tgbot.on(events.NewMessage(pattern="^/mentionall ?(.*)"))
-async def mentionall(event):
+    @tgbot.on(events.NewMessage(pattern="^/mentionall ?(.*)"))
+    async def mentionall(event):
     chat_id = event.chat_id
     if event.is_private:
         return await event.respond("__Perintah ini hanya dapat digunakan dalam grup dan channel!__")
@@ -480,8 +480,8 @@ async def mentionall(event):
         pass
 
 
-@tgbot.on(events.NewMessage(pattern="^/cancel$"))
-async def cancel_spam(event):
+    @tgbot.on(events.NewMessage(pattern="^/cancel$"))
+    async def cancel_spam(event):
     if event.chat_id not in spam_chats:
         return await event.respond('__Tidak ada proses yang berjalan...__')
     else:
