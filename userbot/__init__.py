@@ -36,6 +36,21 @@ load_dotenv("config.env")
 
 StartTime = time.time()
 
+# Global Variables
+COUNT_MSG = 0
+USERS = {}
+COUNT_PM = {}
+LASTMSG = {}
+CMD_HELP = {}
+CMD_LIST = {}
+SUDO_LIST = {}
+ZALG_LIST = {}
+LOAD_PLUG = {}
+INT_PLUG = ""
+ISAFK = False
+AFKREASON = None
+ENABLE_KILLME = True
+
 # Bot Logs setup:
 CONSOLE_LOGGER_VERBOSE = sb(os.environ.get("CONSOLE_LOGGER_VERBOSE", "False"))
 
@@ -335,22 +350,6 @@ try:
     delgvar("restartstatus")
 except AttributeError:
     pass
-
-
-# Global Variables
-COUNT_MSG = 0
-USERS = {}
-COUNT_PM = {}
-LASTMSG = {}
-CMD_HELP = {}
-CMD_LIST = {}
-SUDO_LIST = {}
-ZALG_LIST = {}
-LOAD_PLUG = {}
-INT_PLUG = ""
-ISAFK = False
-AFKREASON = None
-ENABLE_KILLME = True
 
 
 def paginate_help(page_number, loaded_modules, prefix):
