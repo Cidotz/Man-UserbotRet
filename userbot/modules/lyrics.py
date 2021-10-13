@@ -9,7 +9,7 @@ import os
 import lyricsgenius
 from pylast import User
 
-from userbot import CMD_HELP, GENIUS, LASTFM_USERNAME, lastfm
+from userbot import CMD_HELP, GENIUS
 from userbot.events import register
 
 if GENIUS is not None:
@@ -22,14 +22,6 @@ async def lyrics(lyric):
     if GENIUS is None:
         await lyric.edit("`Provide genius access token to Heroku ConfigVars...`")
         return False
-    if lyric.pattern_match.group(1) == "now":
-        playing = User(LASTFM_USERNAME, lastfm).get_now_playing()
-        if playing is None:
-            await lyric.edit("`No information current lastfm scrobbling...`")
-            return False
-        artist = playing.get_artist()
-        song = playing.get_title()
-    else:
         artist = lyric.pattern_match.group(2)
         song = lyric.pattern_match.group(3)
     await lyric.edit(f"`Searching lyrics for {artist} - {song}...`")
@@ -60,8 +52,6 @@ CMD_HELP.update(
         "lyrics": "**Plugin : **`lyrics`\
         \n\n  •  **Syntax :** `.lyrics` **<nama artist> - <nama lagu>**\
         \n  •  **Function : **Dapatkan lirik yang cocok dengan artis dan lagu.\
-        \n\n  •  **Syntax :** `.lyrics now`\
-        \n  •  **Function : **Dapatkan lirik artis dan lagu dari scrobbling lastfm saat ini.\
     "
     }
 )
