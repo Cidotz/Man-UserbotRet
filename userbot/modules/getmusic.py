@@ -11,7 +11,6 @@ import time
 import deezloader
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
-from pylast import User
 from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.types import DocumentAttributeAudio, DocumentAttributeVideo
@@ -19,10 +18,8 @@ from telethon.tl.types import DocumentAttributeAudio, DocumentAttributeVideo
 from userbot import (
     CMD_HELP,
     DEEZER_ARL_TOKEN,
-    LASTFM_USERNAME,
     TEMP_DOWNLOAD_DIRECTORY,
     bot,
-    lastfm,
 )
 from userbot.events import register
 from userbot.utils import chrome, progress
@@ -169,97 +166,6 @@ async def _(event):
         os.remove(thumb_image)
         os.system("rm *.mkv *.mp4 *.webm")
         return
-
-
-@register(outgoing=True, pattern=r"^\.smd (?:(now)|(.*) - (.*))")
-async def _(event):
-    if event.fwd_from:
-        return
-    if event.pattern_match.group(1) == "now":
-        playing = User(LASTFM_USERNAME, lastfm).get_now_playing()
-        if playing is None:
-            return await event.edit(
-                "`Error: Tidak ada data scrobbling yang ditemukan.`"
-            )
-        artist = playing.get_artist()
-        song = playing.get_title()
-    else:
-        artist = event.pattern_match.group(2)
-        song = event.pattern_match.group(3)
-    track = str(artist) + " - " + str(song)
-    chat = "@SpotifyMusicDownloaderBot"
-    try:
-        await event.edit("`Getting Your Music...`")
-        async with bot.conversation(chat) as conv:
-            await asyncio.sleep(2)
-            await event.edit("`Downloading...`")
-            try:
-                response = conv.wait_event(
-                    events.NewMessage(incoming=True, from_users=752979930)
-                )
-                msg = await bot.send_message(chat, track)
-                respond = await response
-                res = conv.wait_event(
-                    events.NewMessage(incoming=True, from_users=752979930)
-                )
-                r = await res
-                await bot.send_read_acknowledge(conv.chat_id)
-            except YouBlockedUserError:
-                await event.reply(
-                    "`Unblock `@SpotifyMusicDownloaderBot` dan coba lagi`"
-                )
-                return
-            await bot.forward_messages(event.chat_id, respond.message)
-        await event.client.delete_messages(conv.chat_id, [msg.id, r.id, respond.id])
-        await event.delete()
-    except TimeoutError:
-        return await event.edit(
-            "`Error: `@SpotifyMusicDownloaderBot` tidak merespons atau Lagu tidak ditemukan!.`"
-        )
-
-
-@register(outgoing=True, pattern=r"^\.net (?:(now)|(.*) - (.*))")
-async def _(event):
-    if event.fwd_from:
-        return
-    if event.pattern_match.group(1) == "now":
-        playing = User(LASTFM_USERNAME, lastfm).get_now_playing()
-        if playing is None:
-            return await event.edit(
-                "`Error: Tidak ada scrobble saat ini yang ditemukan.`"
-            )
-        artist = playing.get_artist()
-        song = playing.get_title()
-    else:
-        artist = event.pattern_match.group(2)
-        song = event.pattern_match.group(3)
-    track = str(artist) + " - " + str(song)
-    chat = "@WooMaiBot"
-    link = f"/netease {track}"
-    await event.edit("`Searching...`")
-    try:
-        async with bot.conversation(chat) as conv:
-            await asyncio.sleep(2)
-            await event.edit("`Processing...`")
-            try:
-                msg = await conv.send_message(link)
-                response = await conv.get_response()
-                respond = await conv.get_response()
-                await bot.send_read_acknowledge(conv.chat_id)
-            except YouBlockedUserError:
-                await event.reply("`Please unblock @WooMaiBot and try again`")
-                return
-            await event.edit("`Sending Your Music...`")
-            await asyncio.sleep(3)
-            await bot.send_file(event.chat_id, respond)
-        await event.client.delete_messages(
-            conv.chat_id, [msg.id, response.id, respond.id]
-        )
-        await event.delete()
-    except TimeoutError:
-        return await event.edit(
-            "`Error: `@WooMaiBot` tidak merespons atau Lagu tidak ditemukan!.`"
-        )
 
 
 @register(outgoing=True, pattern=r"^\.mhb(?: |$)(.*)")
@@ -460,12 +366,8 @@ CMD_HELP.update(
         "getmusic": "**Plugin : **`getmusic`\
         \n\n  •  **Syntax :** `smd` <nama lagu>\
         \n  •  **Function : **Mendowload lagu dari bot @SpotifyMusicDownloaderBot\
-        \n\n  •  **Syntax :** `.smd now`\
-        \n  •  **Function : **Unduh penggunaan scrobble LastFM saat ini dari bot @SpotifyMusicDownloaderBot\
         \n\n  •  **Syntax :** `.net` <nama lagu>\
         \n  •  **Function : **Mendowload lagu dari bot @WooMaiBot\
-        \n\n  •  **Syntax :** `.net now`\
-        \n  •  **Function : **Unduh penggunaan scrobble LastFM saat ini dari bot @WooMaiBot\
         \n\n  •  **Syntax :** `.mhb` <Link Spotify/Deezer>\
         \n  •  **Function : **Mendowload lagu dari Spotify atau Deezer dari bot @MusicsHunterBot\
         \n\n  •  **Syntax :** `.deez` <link spotify/deezer> FORMAT\
