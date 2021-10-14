@@ -8,12 +8,11 @@ import os
 import sys
 from pathlib import Path
 
-from userbot import CMD_HELP, LOGS, TEMP_DOWNLOAD_DIRECTORY, bot
+from userbot import CMD_HELP, LOGS, bot
 from userbot.events import register
 from userbot.utils import edit_or_reply, reply_id
 
 DELETE_TIMEOUT = 5
-thumb_image_path = os.path.join(TEMP_DOWNLOAD_DIRECTORY, "thumb_image.jpg")
 
 
 def remove_plugin(shortname):
@@ -93,7 +92,6 @@ async def _(event):
 @register(outgoing=True, pattern=r"^\.psend ([\s\S]*)")
 async def send(event):
     reply_to_id = await reply_id(event)
-    thumb_image_path if os.path.exists(thumb_image_path) else None
     input_str = event.pattern_match.group(1)
     the_plugin_file = f"./userbot/modules/{input_str}.py"
     if os.path.exists(the_plugin_file):
@@ -101,9 +99,9 @@ async def send(event):
             event.chat_id,
             the_plugin_file,
             force_document=True,
+            thumb="userbot/resources/logo.jpg",
             allow_cache=False,
             reply_to=reply_to_id,
-            thumb="userbot/resources/logo.jpg",
             caption=f"➠ **Nama Plugin:** `{input_str}`",
         )
         await event.delete()
