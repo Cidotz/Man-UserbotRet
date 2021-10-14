@@ -93,7 +93,7 @@ async def _(event):
 @register(outgoing=True, pattern=r"^\.psend ([\s\S]*)")
 async def send(event):
     reply_to_id = await reply_id(event)
-    thumb = thumb_image_path if os.path.exists(thumb_image_path) else None
+    thumb_image_path if os.path.exists(thumb_image_path) else None
     input_str = event.pattern_match.group(1)
     the_plugin_file = f"./userbot/modules/{input_str}.py"
     if os.path.exists(the_plugin_file):
