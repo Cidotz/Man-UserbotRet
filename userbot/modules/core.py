@@ -101,10 +101,9 @@ async def send(event):
             event.chat_id,
             the_plugin_file,
             force_document=True,
-            thumb="userbot/resources/logo.jpg",
             allow_cache=False,
             reply_to=reply_to_id,
-            thumb=thumb,
+            thumb="userbot/resources/logo.jpg",
             caption=f"➠ **Nama Plugin:** `{input_str}`",
         )
         await event.delete()
