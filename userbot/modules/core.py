@@ -101,6 +101,7 @@ async def send(event):
             event.chat_id,
             the_plugin_file,
             force_document=True,
+            thumb="userbot/resources/logo.jpg",
             allow_cache=False,
             reply_to=reply_to_id,
             thumb=thumb,
@@ -120,18 +121,18 @@ async def uninstall(event):
     try:
         remove_plugin(shortname)
         os.remove(dir_path)
-        await event.edit(f"**Berhasil Uninstall Modules** `{shortname}`")
+        await event.edit(f"**Berhasil Menghapus Modules** `{shortname}`")
     except OSError as e:
-        await event.edit("**ERROR:** %s : %s" % (dir_path, e.strerror))
+        await event.edit("**ERROR:** `%s` : %s" % (dir_path, e.strerror))
 
 
 CMD_HELP.update(
     {
         "core": "**Plugin : **`core`\
         \n\n  •  **Syntax :** `.install` <reply ke file module>\
-        \n  •  **Function : **Untuk Menginstall plugins userbot secara instan.\
+        \n  •  **Function : **Untuk Menginstall module userbot secara instan.\
         \n\n  •  **Syntax :** `.uninstall` <nama module>\
-        \n  •  **Function : **Untuk Menuginstall plugins userbot secara instan.\
+        \n  •  **Function : **Untuk Menguninstall / Menghapus module userbot secara instan.\
         \n\n  •  **Syntax :** `.psend` <nama module>\
         \n  •  **Function : **Untuk Mengirim module userbot secara instan.\
     "
