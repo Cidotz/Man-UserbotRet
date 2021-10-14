@@ -8,7 +8,7 @@ import os
 import sys
 from pathlib import Path
 
-from userbot import CMD_HELP, DEVS, LOGS, TEMP_DOWNLOAD_DIRECTORY, bot
+from userbot import CMD_HELP, LOGS, TEMP_DOWNLOAD_DIRECTORY, bot
 from userbot.events import register
 from userbot.utils import edit_or_reply, reply_id
 
@@ -116,7 +116,7 @@ async def uninstall(event):
     if event.fwd_from:
         return
     shortname = event.pattern_match["shortname"]
-    dir_path =f"./userbot/modules/{shortname}.py"
+    dir_path = f"./userbot/modules/{shortname}.py"
     try:
         remove_plugin(shortname)
         os.remove(dir_path)
