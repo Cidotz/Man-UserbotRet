@@ -37,7 +37,7 @@ from typing import Optional
 
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator, DocumentAttributeFilename
-from userbot import SUDO_USERS
+from userbot import DEVS, SUDO_USERS
 from userbot.utils.format import md_to_text, paste_message
 
 
@@ -154,7 +154,7 @@ async def take_screen_shot(video_file: str, duration: int, path: str = '') -> Op
 
 async def reply_id(event):
     reply_to_id = None
-    if event.sender_id in SUDO_USERS:
+    if event.sender_id in SUDO_USERS and DEVS:
         reply_to_id = event.id
     if event.reply_to_msg_id:
         reply_to_id = event.reply_to_msg_id
@@ -177,7 +177,7 @@ async def edit_or_reply(
     reply_to = await event.get_reply_message()
     if len(text) < 4096 and not deflink:
         parse_mode = parse_mode or "md"
-        if event.sender_id in SUDO_USERS:
+        if event.sender_id in SUDO_USERS and DEVS:
             if reply_to:
                 return await reply_to.reply(
                     text, parse_mode=parse_mode, link_preview=link_preview
@@ -193,7 +193,7 @@ async def edit_or_reply(
         linktext = linktext or "Pesan Terlalu Besar Jadi Paste ke Bin"
         response = await paste_message(text, pastetype="s")
         text = linktext + f" [Disini]({response})"
-        if event.sender_id in SUDO_USERS:
+        if event.sender_id in SUDO_USERS and DEVS:
             if reply_to:
                 return await reply_to.reply(text, link_preview=link_preview)
             return await event.reply(text, link_preview=link_preview)
@@ -207,7 +207,7 @@ async def edit_or_reply(
         await reply_to.reply(caption, file=file_name)
         await event.delete()
         return os.remove(file_name)
-    if event.sender_id in SUDO_USERS:
+    if event.sender_id in SUDO_USERS and DEVS:
         await event.reply(caption, file=file_name)
         await event.delete()
         return os.remove(file_name)
@@ -274,7 +274,7 @@ async def edit_delete(event, text, time=None, parse_mode=None, link_preview=None
     parse_mode = parse_mode or "md"
     link_preview = link_preview or False
     time = time or 5
-    if event.sender_id in SUDO_USERS:
+    if event.sender_id in SUDO_USERS and DEVS:
         reply_to = await event.get_reply_message()
         newevent = (
             await reply_to.reply(text, link_preview=link_preview, parse_mode=parse_mode)
