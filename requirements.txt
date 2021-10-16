@@ -75,6 +75,7 @@ validators
 vcsi
 wikipedia
 wordcloud
+yfinance
 youtube-dl
 youtube-search
 youtube-search-python
